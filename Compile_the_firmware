@@ -10,3 +10,5 @@
 6、更新稳定分支1907的packages：./scripts/feeds update -a & ./scripts/feeds install -a 
 7、修改./scripts下的download.pl,添加相关镜像源，可参考这里：https://github.com/coolsnowwolf/lede/commit/e5f08410e0b27af9a8a3655161083a5a525ff903
 8、在master和1907分支下执行make menuconfig来选择自己需要的软件包后就可以编译定制固件了。
+9、编译shadowsocksr时，出现这样的错误：checking whether mbedtls supports the Camellia block cipher or not... configure: error: MBEDTLS_CAMELLIA_C required
+   修改package/libs/mbedtls/patches/200-config.patch，注释掉define MBEDTLS_CAMELLIA_C解决。
