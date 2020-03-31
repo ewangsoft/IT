@@ -5,10 +5,17 @@
     3）./scripts/feeds update -a & ./scripts/feeds install -a  //将附带packages源下载到本地
 2、查看当前本地分支：git branch；查看当前远程分支：git branch -r ；一次查看所有分支：git branch -a
 3、创建远程分支 origin/openwrt-19.07的本地分支1907：git branch 1907  origin/openwrt-19.07
-4、当从本地master分支切换到1907分支时，如果修改了本地master分支，需要先执行git stash save，其有两个功能：先贮藏本地修改再将分支数据还原到提交前的状态。等再切换回此分支执行git stash apply将之前贮藏的修改还原回来。（官方文档推荐用push：https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E8%B4%AE%E8%97%8F%E4%B8%8E%E6%B8%85%E7%90%86 ，但我在git=2.7.4版本下没找到push参数）
+4、当从本地master分支切换到1907分支时，如果修改了本地master分支，需要先执行git stash save，其有两个功能：先贮藏本地修改再将分支数据还原到提交前的状态。
+   等再切换回此分支执行git stash apply将之前贮藏的修改还原回来。
+   （官方文档推荐用push：https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E8%B4%AE%E8%97%8F%E4%B8%8E%E6%B8%85%E7%90%86 ，但我在git=2.7.4版本下没找到push参数）
 5、切换到当前稳定版分支：git checkout 1907
 6、更新稳定分支1907的packages：./scripts/feeds update -a & ./scripts/feeds install -a 
-7、修改./scripts下的download.pl,添加相关镜像源，可参考这里：https://github.com/coolsnowwolf/lede/commit/e5f08410e0b27af9a8a3655161083a5a525ff903
+7、修改./scripts下的download.pl,添加相关镜像源，可参考这里：
+   https://github.com/coolsnowwolf/lede/commit/e5f08410e0b27af9a8a3655161083a5a525ff903
 8、在master和1907分支下执行make menuconfig来选择自己需要的软件包后就可以编译定制固件了。
-9、编译shadowsocksr时，出现这样的错误：checking whether mbedtls supports the Camellia block cipher or not... configure: error: MBEDTLS_CAMELLIA_C required
+9、编译shadowsocksr时，出现这样的错误：
+   checking whether mbedtls supports the Camellia block cipher or not... configure: error: MBEDTLS_CAMELLIA_C required
    修改package/libs/mbedtls/patches/200-config.patch，注释掉define MBEDTLS_CAMELLIA_C解决。
+10、当将MTK MT7615闭源驱动（https://github.com/MeIsReallyBa/k2p-openwrt-mt7615_5.0.2.0.git或https://github.com/thisdk/mtk-openwrt-mt7615-k2p.git）
+   放进openwrt master中时，里面的luci-app-mtwifi可能会影响luci-app-shadowsocksr和luci-app-vlmcsd的正常使用（大概错误提示module 'luci.cbi' not found），
+   需要添加luci-compat包可以解决。
