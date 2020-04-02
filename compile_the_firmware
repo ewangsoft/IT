@@ -32,3 +32,18 @@
         （4）Proxy list DNS=8.8.8.8等不受污染的DNS服务器。
         （5）Direct list DNS=运营商提供的DNS服务器或第三方如114.114.114.114DNS服务器。
         （6）DNS、Routing、Policy、Reverse可不启用。
+13、当要跨网段使用IPTV和SSDP（投屏、资源共享）时，需要能转发组播，目前我测试的openwrt master可用的组播转发有IGMPProxy和smcroute和iptables-tee，
+    有LUCI界面的omcproxy目前在openwrt master for mt7621下测试是不可用的：
+    1）在OpenWrt下配置IGMPProxy官方有参考文档：https://openwrt.org/docs/guide-user/network/wan/udp_multicast?s[]=igmpproxy
+        要点是：
+            （1）在/etc/config/igmpprox文件里指定upstream（组播数据来源的接口）和downstream（组播数据要转到的接口），在firewall下添加允许
+        从upstream到downstream方向的igmp和udp组播转发规则。
+            （2）在参与组播转发的接口上启用igmp snooping。
+            （3）igmpproxy默认不支持转发SSDP组播（239.255.255.250）。转发SSDP可以用smcroute或iptables。
+    2）SSDP组播数据的跨网转发：
+            （1）使用iptables-tee（此参数不在iptables的默认编译参数里需要手工添加编译） ：具体添加方法是：在firewall下添加自定义命令，命令如下：
+                iptables -t mangle -A PREROUTING -i br-lan -s 192.168.199.0/24 -d 239.255.255.250/32 -p udp --dport 1900 -j TEE --gateway 192.168.99.255
+                将br-lan换成你SSDP客户端所在网络接口名称，将gateway后面的子网广播地址换成SSDP服务器所在的子网的广播地址。
+            （2）使用smcroute：配置文件在/etc/smcroute，添加如下两行配置，eth0换成SSDP客户端所在网络接口名称，eth1/eth2换成SSDP服务端所在的接口名称：
+                mgroup from eth0 group 239.255.255.250
+                mroute from eth0 group 239.255.255.250 to eth1 eth2
