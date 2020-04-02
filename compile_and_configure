@@ -47,3 +47,26 @@
             （2）使用smcroute：配置文件在/etc/smcroute，添加如下两行配置，eth0换成SSDP客户端所在网络接口名称，eth1/eth2换成SSDP服务端所在的接口名称：
                 mgroup from eth0 group 239.255.255.250
                 mroute from eth0 group 239.255.255.250 to eth1 eth2
+14、创建一个可以跟踪官方OpenWrt master更新、并可提交自己数据的mymaster分支：
+    1）在github.com上fork OpenWrt仓库
+    2）本地仓库初始化：git init
+    3）添加OpenWrt官方仓库：git remote add openwrt https://github.com/openwrt/openwrt.git  //官方
+    4）添加自己fork的OpenWrt仓库：git remote add myopenwrt https://github.com/ewangsoft/openwrt.git  //自己
+    5）将OpenWrt官方仓库数据拉到本地：git fetch openwrt（如果只拉master分支就用openwrt/master）
+    6）创建OpenWrt官方master的本地分支：git branch master openwrt/master
+    7）将自己fork的OpenWrt仓库数据拉到本地：git fetch ewangsoft
+    8）创建自己OpenWrt仓库的master分支的本地分支：git branch mymaster ewangsoft/master
+    9）进入mymaster分支，合并官方OpenWrt的master分支：git checkout mymaster & git merge master
+    10）至此创建完毕，下面是合并官方master更新到自己mymaster分支下：
+        （1）git checkout master，进入官方master分支
+        （2）git pull，更新官方master
+        （3）git checkout mymaster，进入mymaster分支
+        （4）git merge master合并官方master数据到mymaster分支。
+        （5）git commit & git push将更新推到自己仓库的mymaster分支下。
+        
+    
+    
+    
+    
+    
+    
