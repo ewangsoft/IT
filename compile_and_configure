@@ -63,6 +63,12 @@
         （3）git checkout mymaster，进入mymaster分支
         （4）git merge master合并官方master数据到mymaster分支。
         （5）git commit & git push将更新推到自己仓库的mymaster分支下。
+    11）备注：7）--9）步也可以替换为下面这样，减少一次数据下载：
+        （1）创建分支mymaster：git branch mymaster
+        （2）进入mymaster分支，合并master：git merge master
+        （3）将mymaster分支与自己的远程master分支关联：git branch  --set-upstream-to=ewangsoft/master
+        （4）查看关联：git branch -vv
+        （5）删除关联： git branch --unset-upstream
         
     
     
