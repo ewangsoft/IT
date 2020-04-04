@@ -16,4 +16,4 @@
 7、HT(high-throughput)：高吞吐率，802.11n时提出的一些列技术；VHT (very-high throughput)，非常高吞吐率，802.11ac时提出的一系列技术。
 8、802.11AC带宽信令：VHT BW Signaling。IEEE 802.11 ac可以支持的发送带宽为 20MHz , 40MHz , 80MHz , 以及可选的 160ΜΗZ。
   不同带宽的选择通过控制信令中的VHT-SIG-A（信号域 Α）中的BW（带宽指示）字段指示，由BW字段通过两个比特的信息来指示传输带宽为20MHz、40MHz、80MHz还是160MHZ。
- 
+9、bg保护模式：兼容802.11b/g，尽可能的让b/g设备稳定入网。 
