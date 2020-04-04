@@ -10,3 +10,4 @@
   3）MPDU：MAC Protocol Data Unit，MAC协议数据单元，可以理解为MSDP经802.11封装后的数据帧。
   4）A-MSDU：就是将多个MSDU封装在一个802.11 MPDU里的技术。
   5）A-MPDU：将多个802.11帧封装后再发送出去。
+4、Block ACK：块确认。一次提供多个帧的确认。  
