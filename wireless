@@ -2,3 +2,5 @@
   Legacy mode：向前兼容802.11a/g/b
   Mixed mode：向前兼容802.11n/a/g/b
   Greenfield mode：不向前兼容，最佳吞吐量模式
+2、空时分组码（Space-time block code，STBC，又译空时块码），是无线通信技术中一种在不同时刻、不同天线上发射数据的多个副本，从而利用时间和空间分集
+  以提高数据传输可靠性的编码。
