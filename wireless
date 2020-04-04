@@ -14,3 +14,6 @@
 5、Guard Interval（GI）：数据帧被划分成数据块后发送后一块与前一块之间的间隔。间隔过小造成前后块干扰，间隔过大造成效率降低。
 6、LDPC：low-density parity-check，低密度奇偶检查码。错误校正能力非常接近理论最大值（香农极限），是先进的通信系统的频道编码标准。
 7、HT(high-throughput)：高吞吐率，802.11n时提出的一些列技术；VHT (very-high throughput)，非常高吞吐率，802.11ac时提出的一系列技术。
+8、802.11AC带宽信令：VHT BW Signaling。IEEE 802.11 ac可以支持的发送带宽为 20MHz , 40MHz , 80MHz , 以及可选的 160ΜΗZ。
+  不同带宽的选择通过控制信令中的VHT-SIG-A（信号域 Α）中的BW（带宽指示）字段指示，由BW字段通过两个比特的信息来指示传输带宽为20MHz、40MHz、80MHz还是160MHZ。
+ 
