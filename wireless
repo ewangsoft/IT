@@ -4,3 +4,9 @@
   Greenfield mode：不向前兼容，最佳吞吐量模式
 2、空时分组码（Space-time block code，STBC，又译空时块码），是无线通信技术中一种在不同时刻、不同天线上发射数据的多个副本，从而利用时间和空间分集
   以提高数据传输可靠性的编码。
+3、A-MSDU和A-MPDU：
+  1）都是802.11n中用来提高信道利用率的技术。
+  2）MSDU： MAC Service Data Unit，MAC服务数据单元，可以理解为以太网数据帧。
+  3）MPDU：MAC Protocol Data Unit，MAC协议数据单元，可以理解为MSDP经802.11封装后的数据帧。
+  4）A-MSDU：就是将多个MSDU封装在一个802.11 MPDU里的技术。
+  5）A-MPDU：将多个802.11帧封装后再发送出去。
