@@ -30,3 +30,5 @@
 11、FTM（Fine Time Measurement）：802.11标准中定义了精确时间测量FTM机制，通过FTM机制可对信号从发射端到接收端的空口传输时间进行精确测量，进而计算出发射端到接收端之间的距离。
 12、PMF（Protected Management Frames）：受保护的管理帧，是WiFi联盟定义的增强WiFi连接安全性的标准。它提供单播和多播管理动作，用WPA2/WPA3构成一个安全的方法，可以提高包的隐私保护。
 13、Passpoint认证：Wi-Fi联盟推出的认证计划，让WIFI能通过SIM身分识别，无缝切换蜂巢、不用输认证信息自动连接受到安全保护的热点。
+14、MBO（Multiband Operations）多频带运营，OCE（Optimized Connectivity Experience）优化连接体验。
+   MBO和OCE基于IEEE 802.11v和802.11k标准提供一个强大的可互操作的引导终端接入合适的网络。
