@@ -32,3 +32,4 @@
 13、Passpoint认证：Wi-Fi联盟推出的认证计划，让WIFI能通过SIM身分识别，无缝切换蜂巢、不用输认证信息自动连接受到安全保护的热点。
 14、MBO（Multiband Operations）多频带运营，OCE（Optimized Connectivity Experience）优化连接体验。
    MBO和OCE基于IEEE 802.11v和802.11k标准提供一个强大的可互操作的引导终端接入合适的网络。
+15、打开无线网卡的监听模式：ifconfig wlan0 down；iwconfig wlan0 mode monitor   
