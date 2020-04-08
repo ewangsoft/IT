@@ -34,3 +34,4 @@
    MBO和OCE基于IEEE 802.11v和802.11k标准提供一个强大的可互操作的引导终端接入合适的网络。
 15、打开无线网卡的监听模式：ifconfig wlan0 down；iwconfig wlan0 mode monitor   
 16、打开网卡的混杂模式：ifconfig wlan0 promisc,关闭ifconfig wlan0 -promisc
+17、查看无线网卡支持哪些特性：iw list；iw iwconfig iwlist 是常用的无线管理命令。
