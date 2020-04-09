@@ -1,0 +1,81 @@
+这里是我使用OpenWrt的记录。
+1、将OpenWrt源和相关packages下载到本地：
+    1）git clone https://github.com/openwrt/openwrt.git  //将OpenWrt源下载到当前openwrt目录，并自动创建和切换到本地分支master
+    2）cd openwrt
+    3）./scripts/feeds update -a & ./scripts/feeds install -a  //将附带packages源下载到本地
+2、查看当前本地分支：git branch；查看当前远程分支：git branch -r ；一次查看所有分支：git branch -a
+3、创建远程分支 origin/openwrt-19.07的本地分支1907：git branch 1907  origin/openwrt-19.07
+4、当从本地master分支切换到1907分支时，如果修改了本地master分支，需要先执行git stash save，其有两个功能：先贮藏本地修改再将分支数据还原到提交前的状态。
+   等再切换回此分支执行git stash apply将之前贮藏的修改还原回来。
+   （官方文档推荐用push：https://git-scm.com/book/zh/v2/Git-%E5%B7%A5%E5%85%B7-%E8%B4%AE%E8%97%8F%E4%B8%8E%E6%B8%85%E7%90%86 ，但我在git=2.7.4版本下没找到push参数）
+5、切换到当前稳定版分支：git checkout 1907
+6、更新稳定分支1907的packages：./scripts/feeds update -a & ./scripts/feeds install -a 
+7、修改./scripts下的download.pl,添加相关镜像源，可参考这里：
+   https://github.com/coolsnowwolf/lede/commit/e5f08410e0b27af9a8a3655161083a5a525ff903
+8、在master和1907分支下执行make menuconfig来选择自己需要的软件包后就可以编译定制固件了。
+9、编译shadowsocksr时，出现这样的错误：
+   checking whether mbedtls supports the Camellia block cipher or not... configure: error: MBEDTLS_CAMELLIA_C required
+   修改package/libs/mbedtls/patches/200-config.patch，注释掉define MBEDTLS_CAMELLIA_C解决。
+10、当将MTK MT7615闭源驱动（https://github.com/MeIsReallyBa/k2p-openwrt-mt7615_5.0.2.0.git或https://github.com/thisdk/mtk-openwrt-mt7615-k2p.git）
+   放进openwrt master中时，里面的luci-app-mtwifi可能会影响luci-app-shadowsocksr和luci-app-vlmcsd的正常使用（大概错误提示module 'luci.cbi' not found），
+   需要添加luci-compat包可以解决。
+11、在openwrt master下默认参数编译V2Ray会超过12MB大小，无法安装到K2P中。
+    可以选中 [*] Exclude V2Ctl、[*] Compress executable files with UPX，当只使用透明代理时还可选中[*] Exclude geoip.dat & geosite.dat，
+    这样安装包就会小很多。
+12、通过luci-app-v2ray配置V2Ray透明代理：
+    1）创建一个使用Dokodemo-door协议的Inbound，并启用Sniffing。
+    2）创建一个使用VMess协议的Outbound，可启用Mux。
+    3）创建一个使用freedom协议的Outbound，Freedom - Domain strategy=UseIP。
+    4）创建一个使用dns协议的Outbound。
+    5）在 transparent proxy 配置页面：
+        （1）Redirect port=1）创建的对象。
+        （2）勾选中Use TProxy。
+        （3）Proxy mode=CN Direct。
+        （4）Proxy list DNS=8.8.8.8等不受污染的DNS服务器。
+        （5）Direct list DNS=运营商提供的DNS服务器或第三方如114.114.114.114DNS服务器。
+        （6）DNS、Routing、Policy、Reverse可不启用。
+13、当要跨网段使用IPTV和SSDP（投屏、资源共享）时，需要能转发组播，目前我测试的openwrt master可用的组播转发有IGMPProxy和smcroute和iptables-tee，
+    有LUCI界面的omcproxy目前在openwrt master for mt7621下测试是不可用的：
+    1）在OpenWrt下配置IGMPProxy官方有参考文档：https://openwrt.org/docs/guide-user/network/wan/udp_multicast?s[]=igmpproxy
+        要点是：
+            （1）在/etc/config/igmpprox文件里指定upstream（组播数据来源的接口）和downstream（组播数据要转到的接口），在firewall下添加允许
+        从upstream到downstream方向的igmp和udp组播转发规则。
+            （2）在参与组播转发的接口上启用igmp snooping。
+            （3）igmpproxy默认不支持转发SSDP组播（239.255.255.250）。转发SSDP可以用smcroute或iptables。
+    2）SSDP组播数据的跨网转发：
+            （1）使用iptables-tee（此参数不在iptables的默认编译参数里需要手工添加编译） ：具体添加方法是：在firewall下添加自定义命令，命令如下：
+                iptables -t mangle -A PREROUTING -i br-lan -s 192.168.199.0/24 -d 239.255.255.250/32 -p udp --dport 1900 -j TEE --gateway 192.168.99.255
+                将br-lan换成你SSDP客户端所在网络接口名称，将gateway后面的子网广播地址换成SSDP服务器所在的子网的广播地址。
+            （2）使用smcroute：配置文件在/etc/smcroute，添加如下两行配置，eth0换成SSDP客户端所在网络接口名称，eth1/eth2换成SSDP服务端所在的接口名称：
+                mgroup from eth0 group 239.255.255.250
+                mroute from eth0 group 239.255.255.250 to eth1 eth2
+14、创建一个可以跟踪官方OpenWrt master更新、并可提交自己数据的mymaster分支：
+    1）在github.com上fork OpenWrt仓库
+    2）本地仓库初始化：git init
+    3）添加OpenWrt官方仓库：git remote add openwrt https://github.com/openwrt/openwrt.git  //官方
+    4）添加自己fork的OpenWrt仓库：git remote add myopenwrt https://github.com/ewangsoft/openwrt.git  //自己
+    5）将OpenWrt官方仓库数据拉到本地：git fetch openwrt（如果只拉master分支就用openwrt/master）
+    6）创建OpenWrt官方master的本地分支：git branch master openwrt/master
+    7）将自己fork的OpenWrt仓库数据拉到本地：git fetch ewangsoft
+    8）创建自己OpenWrt仓库的master分支的本地分支：git branch mymaster ewangsoft/master
+    9）进入mymaster分支，合并官方OpenWrt的master分支：git checkout mymaster & git merge master
+    10）至此创建完毕，下面是合并官方master更新到自己mymaster分支下：
+        （1）git checkout master，进入官方master分支
+        （2）git pull，更新官方master
+        （3）git checkout mymaster，进入mymaster分支
+        （4）git merge master合并官方master数据到mymaster分支。
+        （5）git commit & git push将更新推到自己仓库的mymaster分支下。
+    11）备注：7）--9）步也可以替换为下面这样，减少一次数据下载：
+        （1）创建分支mymaster：git branch mymaster
+        （2）进入mymaster分支，合并master：git merge master
+        （3）将mymaster分支与自己的远程master分支关联：git branch  --set-upstream-to=ewangsoft/master
+        （4）查看关联：git branch -vv
+        （5）删除关联： git branch --unset-upstream
+15、当添加跟踪第三方包时，如果出现只跟踪目录而不跟踪目录下文件时，执行git rm --cached 目录名不加斜杠后再git add 目录名加斜杠即可。
+    查看跟踪数据树型结构：git ls-tree -rt 分支名称 --name-only。       
+    
+    
+    
+    
+    
+    
