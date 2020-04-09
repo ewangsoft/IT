@@ -35,3 +35,15 @@
 15、打开无线网卡的监听模式：ifconfig wlan0 down；iwconfig wlan0 mode monitor   
 16、打开网卡的混杂模式：ifconfig wlan0 promisc,关闭ifconfig wlan0 -promisc
 17、查看无线网卡支持哪些特性：iw list；iw iwconfig iwlist 是常用的无线管理命令。
+18、无线网卡空中抓包：
+  1）想抓空间无线数据，需要无线网卡支持monitor模式，这个用iw list可以看到是否支持。
+  2）我使用wireshark抓包，不是所有无线网卡都被支持，我手中的几个古董AR9271、MT7601U、RLT8188EUS都不支持，笔记本上的intel 8265支持。
+  3）满足上述条件后，就可以开始抓包了，首先使用ps -aux，找到 network-manager和wpa_supplicantra等干扰进程，然后kill掉。也可以使用airmon-ng check kill来杀死进程。
+  4）设置无线网卡为监听模式：iwconfig <devname> mode monitor。这里devname是无线网卡接口名称，如wlan0，具体可以通过ifconfig查看到。
+     如果提示设备忙无法设置成功，先执行ifconfig wlan0 down后再设置。也可以使用airmon-ng start wlan0，会自动创建一个monitor类型接口wlan0mon。
+  5）设置要监听的信道和带宽：iw dev <devname> set channel <channel>  [HT20|HT40+|HT40-|80MHZ160MHZ]
+    这个可以不用设置，因为在wireshark里可以设置，但我用的wireshark在我的网卡里不能设置5.8G频段的80MHZ带宽，当不设置时，无法解码。
+  6）打开wireshark，在Wireless Toolbar里找到802.11 preference，设置解密密钥，WPA2PSK方式的选择wpa-pwd，按psk:ssid格式输入密码和SSID。
+  7）已经连接上AP的客户端数据此时还无法解密，需要客户端重新认证后才可以，或者使用aireplay-ng -0 Deautenticate伪造一个disassocate包，让ap断开与客户端的链接后客户端会重新连接ap认证。
+     伪造冲突包的具体命令格式如下：aireplay-ng -0 10 –a ap_BSSID（AP的MAC） -c client_MAC（客户端的MAC） devname。AP MAC和客户端MAC可以通过在抓包窗口或用airodump-ng获得。
+  
