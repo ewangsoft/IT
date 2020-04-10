@@ -1,0 +1,6 @@
+1、查看系统版本：
+  1）uname -a
+  2）cat /etc/issue
+  3）cat /etc/os-release
+  4）cat /proc/version
+  5）lsb_release -a
