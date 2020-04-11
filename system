@@ -7,3 +7,4 @@
 2、查看软件包里的命令和查看命令所属的软件包:
    在ubuntu系统下，通过dpkg -L pkgname 来查看软件包里包含哪些文件，通过dpkg -S path/commandname方式来查看命令所属的软件包。
    在centos系统下，通过rpm -ql pkgname 来查看软件包里包含哪些文件，通过rpm -qf path/commandname方式来查看命令所属的软件包。
+3、解决centos ssh登录慢：除了UseDNS=no外，还要GSSAPIAuthentication=no。
