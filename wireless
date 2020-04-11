@@ -35,7 +35,8 @@
 15、打开无线网卡的监听模式：ifconfig wlan0 down；iwconfig wlan0 mode monitor   
 16、打开网卡的混杂模式：ifconfig wlan0 promisc,关闭ifconfig wlan0 -promisc
 17、查看无线网卡支持哪些特性：iw list；iw iwconfig iwlist 是常用的无线管理命令。iw是单独软件包，iwlist、iwconfig是wireless-tools软件包中的命令。
-    在ubuntu系统下，通过dpkg -L pkgname 来查看软件包里包含哪些命令。
+    在ubuntu系统下，通过dpkg -L pkgname 来查看软件包里包含哪些文件，通过dpkg -S path/commandname方式来查看命令所属的软件包。
+    在centos系统下，通过rpm -ql pkgname 来查看软件包里包含哪些文件，通过rpm -qf path/commandname方式来查看命令所属的软件包。
 18、无线网卡空中抓包：
   1）想抓空间无线数据，需要无线网卡支持monitor模式，这个用iw list可以看到是否支持。
   2）我使用wireshark抓包，不是所有无线网卡都被支持，我手中的几个古董AR9271、MT7601U、RLT8188EUS都不支持，笔记本上的intel 8265支持。
