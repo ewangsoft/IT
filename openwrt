@@ -76,7 +76,10 @@
 16、编译openwrt所需要的软件（ubuntu下）：
     1）openwrt官方提示安装的：gcc, binutils, bzip2, flex, python3.5+, perl, make, find, grep, diffutils, unzip, gawk, getopt, subversion, libz-dev
     2）./scripts/feeds update需要的：g++, libncurses5-dev
-    
+17、将第三方软件包做为子模块添加到仓库中：
+    1）添加子模块：git submodule add packagerul.git
+    2）更新子模块：进入子模块目录，执行git fetch & git merge或在仓库根目录中执行 git submodule update --remote，Git会进入子模块抓取并更新。
+    3）克隆仓库时同时克隆子模块：git clone --recurse-submodules
     
     
     
