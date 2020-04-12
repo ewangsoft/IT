@@ -8,3 +8,14 @@
    在ubuntu系统下，通过dpkg -L pkgname 来查看软件包里包含哪些文件，通过dpkg -S path/commandname方式来查看命令所属的软件包。
    在centos系统下，通过rpm -ql pkgname 来查看软件包里包含哪些文件，通过rpm -qf path/commandname方式来查看命令所属的软件包。
 3、解决centos ssh登录慢：除了UseDNS=no外，还要GSSAPIAuthentication=no。
+4、修改时区和时间：
+   1）在/usr/share/zoneinfo下寻找所需的时区文件，比如Shanghai在zoneinfo/Asia/Shanghai下，如果有直接把此文件覆盖/etc/localtime即可。
+     如果没有，使用tzselect生成一个后再拷贝。
+   2）查看时区时间：date -R
+   3）设置系统日期、时间：
+     date -s MM/DD/YY //修改日期
+     date -s hh:mm:ss //修改时间
+   4）同步网络时间：
+     安装ntpdate软件后执行ntpdate cn.pool.ntp.org
+   5）将系统时间写入CMOS硬件时间：
+     hwclock -w
