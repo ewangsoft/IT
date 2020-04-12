@@ -19,3 +19,8 @@
      安装ntpdate软件后执行ntpdate cn.pool.ntp.org
    5）将系统时间写入CMOS硬件时间：
      hwclock -w
+5、逻辑卷扩减：
+   1）如果是将磁盘部分空间扩容到lv，先用fdisk创建一个lvm分区，然后使用pvcreate添加一个pv，如果是整块硬盘那就直接pvcreate添加pv
+   2）使用pvextend将pv添加到vg：pvextend VG PV 
+   3）使用lvextend 指定|增大|缩小 lv的大小：lvextend -L size|+size|-size lvname
+   4）使用resize2fs调整lv大小：resize2fs lvname
