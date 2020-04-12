@@ -73,8 +73,9 @@
         （5）删除关联： git branch --unset-upstream
 15、当添加跟踪第三方包时，如果出现只跟踪目录而不跟踪目录下文件时，执行git rm --cached 目录名不加斜杠后再git add 目录名加斜杠即可。
     查看跟踪数据树型结构：git ls-tree -rt 分支名称 --name-only。       
-    
-    
+16、编译openwrt所需要的软件（ubuntu下）：
+    1）openwrt官方提示安装的：gcc, binutils, bzip2, flex, python3.5+, perl, make, find, grep, diffutils, unzip, gawk, getopt, subversion, libz-dev
+    2）./scripts/feeds update需要的：g++, libncurses5-dev
     
     
     
