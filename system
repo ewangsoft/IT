@@ -24,3 +24,6 @@
    2）使用pvextend将pv添加到vg：pvextend VG PV 
    3）使用lvextend 指定|增大|缩小 lv的大小：lvextend -L size|+size|-size lvname
    4）使用resize2fs调整lv大小：resize2fs lvname
+6、查看磁盘分区类型：
+   1）df -T
+   2）lsblk -f
