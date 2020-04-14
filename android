@@ -1,0 +1,4 @@
+1、修改apk包名：apktool，安装使用网址：https://ibotpeaches.github.io/Apktool/install/。软件运行需要jre 1.8。
+   在windows下有apktool.bat，解包用apktool d *.apk；包名是AndroidManifest.xml的package。
+   解包后封包用apktool b apkfoldername。重新生成的apk需要数字签名（每个android apk都需要有一个签名），可以用jarsigner或apksigner。
+   apksigner链接：https://developer.android.com/studio/command-line/apksigner。
