@@ -2,3 +2,6 @@
    在windows下有apktool.bat，解包用apktool d *.apk；包名是AndroidManifest.xml的package。
    解包后封包用apktool b apkfoldername。重新生成的apk需要数字签名（每个android apk都需要有一个签名），可以用jarsigner或apksigner。
    apksigner链接：https://developer.android.com/studio/command-line/apksigner。
+2、android shell下安装apk：pm install *.apk
+   android shell下启动app：am start -n ｛包(package)名｝/｛包名｝.{活动(activity)名称} 或am start 包名
+   activity名称可以通过appt：Android Asset Packaging Tool 工具查看：appt d bading *.apk
