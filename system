@@ -31,3 +31,4 @@
    1）查看新加硬盘可能的总线编号，如scsi硬盘使用ls /sys/class/scsi_host/ 查看所有总线编号
    2）根据总线编号的可能值，使用echo "- - -" >/sys/class/scsi_host/host*/scan 就可以探测出硬盘编号，*为数字0开始，"- - -"中间有空格
    3）可以使用ll /sys/class/scsi_host更快速的找出每个scsi的总线编号
+8、ln 目录：ln -s fullpath_of_source fullpath_of_destination，源和目标必须是绝对路径
