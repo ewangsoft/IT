@@ -54,7 +54,7 @@
     2）本地仓库初始化：git init
     3）添加OpenWrt官方仓库：git remote add openwrt https://github.com/openwrt/openwrt.git  //官方
     4）添加自己fork的OpenWrt仓库：git remote add myopenwrt https://github.com/ewangsoft/openwrt.git  //自己
-    5）将OpenWrt官方仓库数据拉到本地：git fetch openwrt（如果只拉master分支就用openwrt/master）
+    5）将OpenWrt官方仓库数据拉到本地：git fetch openwrt（如果只拉master分支就用openwrt master）
     6）创建OpenWrt官方master的本地分支：git branch master openwrt/master
     7）将自己fork的OpenWrt仓库数据拉到本地：git fetch ewangsoft
     8）创建自己OpenWrt仓库的master分支的本地分支：git branch mymaster ewangsoft/master
