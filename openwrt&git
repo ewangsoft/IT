@@ -80,6 +80,11 @@
     1）添加子模块：git submodule add packagerul.git
     2）更新子模块：进入子模块目录，执行git fetch & git merge或在仓库根目录中执行 git submodule update --remote，Git会进入子模块抓取并更新。
     3）克隆仓库时同时克隆子模块：git clone --recurse-submodules
-    
+ 18、修改已经提交到仓库的提交备注：
+    1）使用git log --oneline 来查看commit的简短ID，或者在github上查看简短ID
+    2）使用git rebase -i <简短commitID>，这里的 <简短commitID>为要修改commit备注的parent commitID，这个ID在github上打开本次提交时就会看到
+    3）上述命令执行完后，会打开编辑窗口，将要修改的备注前的pick改为reword，然后保存退出
+    4）保存退出后就会打开修改备注的窗口，修改完后保存退出
+    5）使用git push --force来更新远程仓库。
     
     
