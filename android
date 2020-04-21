@@ -5,3 +5,6 @@
 2、android shell下安装apk：pm install *.apk
    android shell下启动app：am start -n ｛包(package)名｝/｛包名｝.{活动(activity)名称} 或am start 包名
    activity名称可以通过appt：Android Asset Packaging Tool 工具查看：appt d bading *.apk
+3、android下抓屏和录屏命令：
+   1）抓屏：screencap：-p 保存成png。
+   2）录屏：screenrecord：--size WIDTHxHEIGHT 视频尺寸；--bit-rate RATE 视频码率；--time-limit TIME 录制时长。
