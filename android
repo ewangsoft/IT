@@ -8,3 +8,7 @@
 3、android下抓屏和录屏命令：
    1）抓屏：screencap：-p 保存成png。
    2）录屏：screenrecord：--size WIDTHxHEIGHT 视频尺寸；--bit-rate RATE 视频码率；--time-limit TIME 录制时长。
+4、索尼电视设置电视遥控器控制IPTV盒：
+   1）以河南联通IPTV为例
+   2）依次：设置电视--外部输入--有线/卫星接收盒设置--制造商输入“华为”--型号输入“ec”--列表选机顶盒型号
+   3）我的是ec6108v9，选择后按提示设置IPTV盒接的电视接口、IPTV地区、IPTV运营商名称后即可。
