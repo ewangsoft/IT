@@ -1,6 +1,6 @@
 文件分类：
 
-openwrt：编译、配置OpenWrt的内容
+openwrt&git：OpenWrt和git的相关内容
 
 wireless：无线相关内容
 
