@@ -35,3 +35,6 @@
 9、linux开启接口arp代理：
    1）直接生效：echo 1 > /proc/sys/net/ipv4/conf/ifname（用实际接口替换）/proxy_arp
    2）写入/etc/sysctl.conf：net.ipv4.conf.eth0.proxy_arp=1
+10、电子设备，如手机、平板、路由器、电视盒子，他们的设备信息，如设备序列号、无线射频校正参数、网卡MAC等信息都会单独存放在一个block区块中。
+像MAC、序列号这些数据，可以通过使用dd命令把block区块完整的映射出来，然后用16进制编辑器就可以修改相关数据。
+想刷系统也可以使用dd命令把bootloader、kernel、system、firmware等直接刷入对应存储区块即可（当然是在区块未加锁的情况下）。
