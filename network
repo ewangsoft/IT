@@ -20,3 +20,15 @@
      （4）上述是修改端口1的，其他以此类推
      （5）保存：sendcmd 1 DB save
      备注：我的中兴光猫测线仪测试只接通了1236引脚，所以无法启用千兆
+2、用VLC Player创建一个组播直播源
+   1）windows默认使用的igmp组播版本是V3，在HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\下有两个DWORD类型参数来设置igmp参数：
+      （1）IGMPLevel：0-不支持组播；1-只支持发送组播；2-组播收发全功能
+      （2）IGMPVersion：2-V1；3-V2；4：V3
+   2）linux组播相关设置：
+      （1）接口组播设置：ip link set eth0 multicast on/off或ifconfig eth0 multicast/-multicast
+      （2）设置igmp版本：sysctl net.ipv4.conf.all.force_igmp_version或直接往/proc/sys/net/ipv4/conf/all/force_igmp_version写值
+      （3）设置是否启用组播转发：sysctl net.ipv4.conf.all.mc_forwarding或直接往/proc/sys/net/ipv4/conf/all/mc_forwarding写值
+   3）VLC Player 创建一个组播视频源
+      （1）菜单：“工具”-“偏好设置”，“串流输出”-“访问输出”-“多播输出接口”设置多播源接口
+      （2）菜单：媒体-流，可选择“文件”、“视频流”、“捕获设备”
+      （3）流输出里选择输出类型：http、rtsp、rtp、udp等
