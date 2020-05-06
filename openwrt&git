@@ -35,7 +35,7 @@
         （5）Direct list DNS=运营商提供的DNS服务器或第三方如114.114.114.114DNS服务器。
         （6）DNS、Routing、Policy、Reverse可不启用。
 13、当要跨网段使用IPTV和SSDP（投屏、资源共享）时，需要能转发组播，目前我测试的openwrt master可用的组播转发有IGMPProxy和smcroute和iptables-tee，
-    有LUCI界面的omcproxy目前在openwrt master for mt7621下测试是不可用的：
+    有LUCI界面的omcproxy目前在openwrt master for mt7621下测试是不可用的（具体情况是，当有多个downlink接口时，第二个downlink接口不能正常转发组播）：
     1）在OpenWrt下配置IGMPProxy官方有参考文档：https://openwrt.org/docs/guide-user/network/wan/udp_multicast?s[]=igmpproxy
         要点是：
             （1）在/etc/config/igmpprox文件里指定upstream（组播数据来源的接口）和downstream（组播数据要转到的接口），在firewall下添加允许
