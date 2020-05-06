@@ -46,7 +46,7 @@
             （1）使用iptables-tee（此参数不在iptables的默认编译参数里需要手工添加编译） ：具体添加方法是：在firewall下添加自定义命令，命令如下：
                 iptables -t mangle -A PREROUTING -i br-lan -s 192.168.199.0/24 -d 239.255.255.250/32 -p udp --dport 1900 -j TEE --gateway 192.168.99.255
                 将br-lan换成你SSDP客户端所在网络接口名称，将gateway后面的子网广播地址换成SSDP服务器所在的子网的广播地址。
-		当使用iptable-tee方式转发组播时，组播源接口，如上述的br-lan接口不能启用igmp snooping，启用后，tee将不转发组播。
+		当使用iptable-tee和igmpproxy同时使用时，tee转发组播受igmpproxy的upstream接口限制而不能从upstream向其他接口转发组播。
             （2）使用smcroute：配置文件在/etc/smcroute，添加如下两行配置，eth0换成SSDP客户端所在网络接口名称，eth1/eth2换成SSDP服务端所在的接口名称：
                 mgroup from eth0 group 239.255.255.250
                 mroute from eth0 group 239.255.255.250 to eth1 eth2
