@@ -42,3 +42,10 @@
    3）从上图可以看到三个组播路由的跃点数不同，跃点数最低的将是组播收发接口
    4）可以通过修改接口的跃点数来指定收发组播的接口
    5）当系统安装了虚拟机，默认会增加虚拟网卡，此虚拟网卡接口的跃点数可能较低，组播收发的接口会变成虚拟网卡进而导致本机向外组播收发失败，在物理接口上抓包抓不到组播数据
+4、使用wireshark+chrome抓取https数据解密
+   1）密钥交换算法目前常用的有RSA和Diffie-Hellman
+   2）对于密钥交换使用RSA算法，pre-master-secret由客户端生成，并使用公钥加密传输给服务器
+   3）对于密钥交换使用Diffie-Hellman算法，pre-master-secret则通过在Key Exchange阶段交换的信息，由各自计算出pre-master-secret。所以pre-master-secret没有存到硬盘，也没有在网络上传输
+   4）chrome浏览器默认将 TLS 会话中使用的对称密钥保存在系统环境变量SSLKEYLOGFILE指定的文件中
+   5）设置系统环境变量：SSLKEYLOGFILE，值为文件如d:\ssl\sslkeylog.log
+   5）wireshark在tls协议设置pre-master-secret logfile为SSLKEYLOGFILE
