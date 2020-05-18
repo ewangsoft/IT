@@ -49,3 +49,12 @@
    4）chrome浏览器默认将 TLS 会话中使用的对称密钥保存在系统环境变量SSLKEYLOGFILE指定的文件中
    5）设置系统环境变量：SSLKEYLOGFILE，值为文件如d:\ssl\sslkeylog.log
    5）wireshark在tls协议设置pre-master-secret logfile为SSLKEYLOGFILE
+5、DNS加密通信：
+   1）传统DNS通信的缺点（本段文字来自阿里DNS网站）：传统的DNS查询和应答采用UDP和TCP明文传输，存在网络监听、DNS劫持、中间设备干扰的风险：
+      网络监听风险：即便用户采用HTTPs加密的方式访问站点，DNS查询应答并没有采用加密传输
+      DNS劫持：传统DNS应答数据会被篡改，用户的访问会被路由到钓鱼网站和恶意站点
+      中间设备干扰：主要是一些防火墙对DNS查询的干扰，基于域名的过滤，还有大包MTU分片的影响等
+   2）目前Windows都不内置支持DNS加密通信，需要安装第三方软件包，详情查看：https://www.dnscrypt.org/#dnscrypt-windows
+   3）安卓从9版本开始内置支持DNS加密通信
+   4）全球支持DNS加密通信的一个知名列表：https://dnscrypt.info/public-servers
+   5）目前国内支持DNS加密通信的公共DNS是dns.alidns.com：https://www.alidns.com/faqs/?spm=a2chw.13814944.0.0.783a1760Wnv1mp#dns-safe
