@@ -58,3 +58,11 @@
    3）安卓从9版本开始内置支持DNS加密通信
    4）全球支持DNS加密通信的一个知名列表：https://dnscrypt.info/public-servers
    5）目前国内支持DNS加密通信的公共DNS是dns.alidns.com：https://www.alidns.com/faqs/?spm=a2chw.13814944.0.0.783a1760Wnv1mp#dns-safe
+6、iptables基于时间的控制
+   1）我们经常有这样的需求：在指定时间允许或禁止上网，此时就要用到基于时间的防火墙规则
+   2）存在这样一种情况，为了方便，一些路由系统会自动添加一些防火墙规则，如默认允许“已建立”和“关联”连接通信，即 使用-m conntrack --ctstate established,related参数，这个可以通过使用iptables -L --line-number查看到，
+   并且规则位于某个规则链的顶部，如类似这样：1 ACCEPT all -- 0.0.0.0/0 0.0.0.0/0 ctstate RELATED,ESTABLISHED /* !fw3 */
+   3）当我们创建一个基于时间的防火墙规则时，要想使规则生效，此规则就应该在上述允许规则的前面，否则已建立的连接不受此规则限制，最终结果就是，控制时间到了，已经联网的不受控制。
+   4）基于时间的防火墙规则如下：
+      iptables -I FORWARD 1 -m time --kerneltz --datestart  2020-05-23 --datestop 2020-06-01 --weekdays Sa,Su --monthdays 1,2--timestart 19:00:00 --timestop 23:00:00 -j DROP
+      其中，-I FORWARD 1表示将此规则添加到FORWARD链的第一条，--kerneltz是使用当前系统时间，要慎重使用，因为一些路由器无CMOS时钟，可能导致时间错误，进而到点规则不生效，不使用--kerneltz则使用UTC时间
