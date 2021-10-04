@@ -13,3 +13,15 @@
    2）依次：设置电视--外部输入--有线/卫星接收盒设置--制造商输入“华为”--型号输入“ec”--列表选机顶盒型号
    3）我的是ec6108v9，选择后按提示设置IPTV盒接的电视接口、IPTV地区、IPTV运营商名称后即可。
    4）设置完成后，电视机通过蓝牙向电视机遥控器发送红外设置数据，最终通过电视机遥控器的红外功能操作IPTV盒。
+5、华为悦盒Q21（河南IPTV定制机顶盒）安装当贝桌面操作流程：
+   1）遥控器按“设置”键，找到“更多”，点进去找到“远程维护连接”，勾选中“允许”并记下验证码和IP地址
+   2）电脑上运行华为STB管理工具，输入第一步记下的IP，用户名是huawei，密码是第一步验证码，点“连接”连接到机顶盒，“启用远程登录”：开
+   3）电脑上使用adb connect IP:5555 连接到电视盒，成功后执行adb remount
+   4）输入下面命令开启“允许安装未知来源应用”：
+     打开数据库：adb shell "/system/xbin/sqlite3 /data/data/com.android.providers.settings/databases/settings.db"
+     SQL语句更新global表字段值：update global set value = 1 where name = 'install_non_market_apps';输入 .quit退出，然后重启机顶盒
+   5）执行adb install 将当贝桌面APP和当贝市场APP安装到电视盒：如adb install dbzm.apk
+   6）使用下面的命令，启动当贝桌面：adb shell "am start -n com.dangbei.tvlauncher/com.dangbei.launcher.ui.main.MainActivity" 
+   （其他桌面可以用appt工具查看activity）
+   7）遥控器一直按向上键，出现的界面中选“桌面设置”，勾选中“桌面提醒”和“开机启动”，然后重启机顶盒即可进入当贝桌面，然后用当贝市场随意安装自己需要的软件
+   8）沙发桌面、沙发管家、电视猫等部分APP被华为加入了APP黑名单中，导致不能正常安装，Q21系统也不能root。
