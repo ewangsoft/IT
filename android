@@ -27,7 +27,7 @@
      打开数据库：adb shell "/system/xbin/sqlite3 /data/data/com.android.providers.settings/databases/settings.db"
      SQL语句更新global表字段值：update global set value = 1 where name = 'install_non_market_apps';输入 .quit退出，然后重启机顶盒
    5）执行adb install 将当贝桌面APP和当贝市场APP安装到电视盒：如adb install dbzm.apk
-   6）使用下面的命令，启动当贝桌面：adb shell "am start -n com.dangbei.tvlauncher/com.dangbei.launcher.ui.main.MainActivity" 
+   6）使用下面的命令，启动当贝桌面：adb shell "am start com.dangbei.tvlauncher"，如果桌面启动不了执行adb shell "am start -n com.dangbei.tvlauncher/com.dangbei.launcher.ui.main.MainActivity" 
    （其他桌面可以用appt工具查看activity）
    7）遥控器一直按向上键，出现的界面中选“桌面设置”，勾选中“桌面提醒”和“开机启动”，然后重启机顶盒即可进入当贝桌面，然后用当贝市场随意安装自己需要的软件
    8）沙发桌面、沙发管家、电视猫等部分APP被华为加入了APP黑名单中，导致不能正常安装，Q21系统也不能root。
