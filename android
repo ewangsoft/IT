@@ -34,3 +34,13 @@
 6、索尼电视进入工程模式和PRO模式：
    1）工程模式：待机状态下，依次按“屏显”、“数字5”、“音量-”、“开机”
    2）PRO模式：启动状态下，依次按“屏显”、“静音”、“音量+”、“主菜单”
+7、案例实践：修改河南联通华为悦盒的MAC地址、STBID、序列号、硬件版本号：
+   提醒：仅可用于学习实践，用于商业场景时可能会违反相应规定，请知悉。
+   1）河南联通IPTV通过MAC地址限制一个账号在多台设备上的使用，所有就有了将多个机顶盒MAC设置成一样的需求
+   2）以太网同网段中，多个设备的MAC地址一样是影响相互间正常通信的，所以要将机顶盒放到不同的网段中
+   3）使用华为STB工具启用机顶盒的远程登录，然后使用adb远程登录机顶盒，默认就是root权限
+   4）使用：ls -l /dev/block/platform/soc/by-name/ 找到deviceinfo对应的block
+   5）cd /tmp & dd if=/dev/block/mmcblk0p4 of=deviceinfo.bin，将存放设备参数的块数据镜像出来
+   6）退出机顶盒shell，在本机执行：adb pull /tmp/deviceinfo.bin，将数据下载到本机
+   7）使用16进制编辑工具以16进制方式打开deviceinfo.bin，找到设备序列号、MAC地址、STBID存放位置修改
+   8）修改硬件版本号：adb remount以读写方式挂载，然后编辑/system/etc/*.prop（*为型号，如EC6108/EC6109等）文件里的product.model参数。
