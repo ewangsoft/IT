@@ -43,4 +43,5 @@
    5）cd /tmp & dd if=/dev/block/mmcblk0p4 of=deviceinfo.bin，将存放设备参数的块数据镜像出来
    6）退出机顶盒shell，在本机执行：adb pull /tmp/deviceinfo.bin，将数据下载到本机
    7）使用16进制编辑工具以16进制方式打开deviceinfo.bin，找到设备序列号、MAC地址、STBID存放位置修改
-   8）修改硬件版本号：adb remount以读写方式挂载，然后编辑/system/etc/*.prop（*为型号，如EC6108/EC6109等）文件里的product.model参数。
+   8）修改硬件版本号（版本不能高于HMT V100R005C03LHAL20，若高于需要先进rec模式恢复到低版本，否则修改*.prop文件无效）：
+      adb remount以读写方式挂载，然后编辑/system/etc/*.prop（*为型号，如EC6108/EC6109等）文件里的product.model参数。
