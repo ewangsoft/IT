@@ -99,5 +99,20 @@
 	来阻止内部的DHCP请求被转发至上联网络，具体配置如下：
 	    a）安装ebtables：opkg install kmod-ebtables & kmod-ebtables-ipv4 & ebtables
 	    b）在本地启动项里添加： ebtables -A FORWARD -p ipv4 --ip-proto 17 --ip-dport 67 -j DROP
-	 这样配置后，不影响路由器从上联网络获取IP，同时阻止接入路由器的终端从上联网络获取IP。   
-    
+	 这样配置后，不影响路由器从上联网络获取IP，同时阻止接入路由器的终端从上联网络获取IP。 
+20、家用OpenWrt路由器配置备忘：
+    1）启用br-wan接口的arp代理：可以添加net.ipv4.conf.br-wan.proxy_arp=1配置到/etc/system.conf，或者在/etc/rc.local里添加：echo 1 > /proc/sys/net/ipv4/conf/br-wan/proxy_arp
+    2）使用计划任务（格式：分 时 日 月 周 命令）向防火墙添加位于FORWARD链表表首的控制规则及删除规则来控制手机和电视指定时间才能上网：
+      iptables -I FORWARD 1 ；iptables -D FORWARD
+    3）跨网络使用投屏：
+      iptables -t mangle -A PREROUTING -i br-lan -s 192.168.199.0/24 -d 239.255.255.250/32 -p udp --dport 1900 -j TEE --gateway 192.168.9.255
+    4）远程抓取路由器任意接口数据：
+      在Wireshark上通过ssh远程抓包的命令：tcpdump -i br-lan -l -w -
+    5）igmpproxy的配置：
+      所有桥接接口包括br-wan接口启用igmp snooping；联通IPTV公共vlanid=99
+    6）添加以下服务组件：
+      1）vlmcsd：激活Windows和Office
+      2）igmpproxy：跨网段转发IPTV组播
+      3）iptables-mod-tee：跨网段使用投屏
+      4）tcpdump：本地和远程抓包
+      5）ebtables：桥接口访问控制
