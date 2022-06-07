@@ -116,3 +116,12 @@
       3）iptables-mod-tee：跨网段使用投屏
       4）tcpdump：本地和远程抓包
       5）ebtables：桥接口访问控制
+    7)dhcp配置选项：
+      config dhcp 'wan'
+	list dhcp_option '3,192.168.10.1'
+	list dhcp_option '1,255.255.0.0'
+	list dhcp_option '6,202.102.224.68,114.114.114.114'
+      config tag 'GW'
+	option dhcp_option '3,192.168.10.254'
+      config host
+        option tag 'GW'
