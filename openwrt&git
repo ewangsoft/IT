@@ -103,7 +103,9 @@
 20、家用OpenWrt路由器配置备忘：
     1）启用br-wan接口的arp代理：可以添加net.ipv4.conf.br-wan.proxy_arp=1配置到/etc/system.conf，或者在/etc/rc.local里添加：echo 1 > /proc/sys/net/ipv4/conf/br-wan/proxy_arp
     2）使用计划任务（格式：分 时 日 月 周 命令）向防火墙添加位于FORWARD链表表首的控制规则及删除规则来控制手机和电视指定时间才能上网：
-      iptables -I FORWARD 1 ；iptables -D FORWARD
+      清除之前的禁止规则：iptables-save |grep -v "denyPhone" |iptables-restore
+      添加新规则：iptables -I FORWARD 1 -m comment --comment "denyPhone" -s 192.168.199.6 -j DROP
+      显示添加的禁止规则：iptables -L FORWARD --line-number | grep "denyPhone"
     3）跨网络使用投屏：
       iptables -t mangle -A PREROUTING -i br-lan -s 192.168.199.0/24 -d 239.255.255.250/32 -p udp --dport 1900 -j TEE --gateway 192.168.9.255
     4）远程抓取路由器任意接口数据：
