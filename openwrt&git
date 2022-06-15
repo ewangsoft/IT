@@ -102,10 +102,15 @@
 	 这样配置后，不影响路由器从上联网络获取IP，同时阻止接入路由器的终端从上联网络获取IP。 
 20、家用OpenWrt路由器配置备忘：
     1）启用br-wan接口的arp代理：可以添加net.ipv4.conf.br-wan.proxy_arp=1配置到/etc/system.conf，或者在/etc/rc.local里添加：echo 1 > /proc/sys/net/ipv4/conf/br-wan/proxy_arp
-    2）使用计划任务（格式：分 时 日 月 周 命令）向防火墙添加位于FORWARD链表表首的控制规则及删除规则来控制手机和电视指定时间才能上网：
-      清除之前的禁止规则：iptables-save |grep -v "denyPhone" |iptables-restore
-      添加新规则：iptables -I FORWARD 1 -m comment --comment "denyPhone" -s 192.168.199.6 -j DROP
-      显示添加的禁止规则：iptables -L FORWARD --line-number | grep "denyPhone"
+    2、定时禁网：
+      1）使用计划任务（格式：分 时 日 月 周 命令）添加的防火墙规则数目少，但路由器重启后不在计划任务执行时间点而导致禁网失效。
+      2）使用防火墙自定义规则可避免重启路由器禁网失效的问题，但需要添加的防火墙规则数目较多。
+      3）不管使用哪种方式，都需要使用iptables -I FORWARD 1向防火墙FORWARD链表表首添加禁网规则。
+      4）计划任务里执行的命令大概这样：iptables -I FORWARD 1 -m comment --comment "denyTV" -s 192.168.199.8 -j DROP
+      5）防火墙自定义规则里添加基于时间的命令大概这样：iptables -I FORWARD 1 -s 192.168.199.8 -m time --kerneltz --timestart 13:00:00 --timestop 18:00:00 -m comment --comment "denyTV" -j DROP
+      6）使用comment的目的是方便按备注标识删除规则。
+      7）想临时取消禁网，将如下命令放到shell脚本中，在需要的时候执行： iptables-save |grep -v "denyTV" |iptables-restore
+      8）显示添加的禁止规则：iptables -L FORWARD --line-number |grep "denyTV"
     3）跨网络使用投屏：
       iptables -t mangle -A PREROUTING -i br-lan -s 192.168.199.0/24 -d 239.255.255.250/32 -p udp --dport 1900 -j TEE --gateway 192.168.9.255
     4）远程抓取路由器任意接口数据：
